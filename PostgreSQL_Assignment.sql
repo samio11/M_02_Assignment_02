@@ -17,14 +17,13 @@ CREATE TABLE species (
 
 CREATE TABLE sightings (
     sighting_id SERIAL PRIMARY KEY,
-    species_id INT NOT NULL,
-    ranger_id INT NOT NULL,
+    species_id INT REFERENCES species(species_id),
+    ranger_id INT REFERENCES rangers(ranger_id),
     location VARCHAR(100) NOT NULL,
     sighting_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notes TEXT,
-    FOREIGN KEY (species_id) REFERENCES species(species_id),
-    FOREIGN KEY (ranger_id) REFERENCES rangers(ranger_id)
+    notes TEXT
 );
+
 
 INSERT INTO rangers (ranger_id, name, region) VALUES
 (1, 'Alice Green', 'Northern Hills'),
@@ -47,3 +46,30 @@ INSERT INTO sightings (sighting_id, species_id, ranger_id, location, sighting_ti
 SELECT * FROM rangers;
 SELECT * FROM species;
 SELECT * FROM sightings;
+
+
+-- Problem 01
+INSERT INTO rangers (name,region) VALUES('Derek Fox','Coastal Plains');
+
+-- Problem 02
+SELECT COUNT(DISTINCT species_id) AS "unique_species_count" FROM sightings;
+
+-- Problem 03
+SELECT * from sightings
+WHERE location ILIKE '%Pass';
+
+-- Problem 04
+SELECT r.name, count(*) as "total_sightings " from sightings s
+JOIN rangers r ON s.ranger_id = r.ranger_id
+GROUP BY r.name;
+
+-- Problem 05
+SELECT common_name FROM species s WHERE s.species_id NOT IN (SELECT species_id FROM sightings);
+
+-- Problem 06
+SELECT sp.common_name,si.sighting_time,r.name FROM sightings si
+JOIN rangers r ON si.ranger_id = r.ranger_id
+JOIN species sp ON si.species_id = sp.species_id
+ORDER BY si.sighting_time DESC LIMIT 2;
+
+-- Problem 07
