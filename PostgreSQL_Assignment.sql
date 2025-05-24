@@ -11,7 +11,7 @@ CREATE TABLE species (
     common_name VARCHAR(100) NOT NULL,
     scientific_name VARCHAR(150) NOT NULL,
     discovery_date DATE NOT NULL,
-    conservation_status VARCHAR(50) CHECK (conservation_status IN ('Endangered', 'Vulnerable', 'Least Concern', 'Critically Endangered'))
+    conservation_status VARCHAR(50)
 );
 
 
@@ -73,3 +73,11 @@ JOIN species sp ON si.species_id = sp.species_id
 ORDER BY si.sighting_time DESC LIMIT 2;
 
 -- Problem 07
+UPDATE species
+SET conservation_status = 'Historic'
+WHERE discovery_date < '1800-01-01';
+
+SELECT now();
+
+-- Problem 09
+DELETE from rangers r WHERE r.ranger_id NOT IN(SELECT s.ranger_id from sightings s);
