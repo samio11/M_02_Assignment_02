@@ -41,7 +41,7 @@ These clauses are commonly used together to implement pagination in database que
 | 4  | Rahim  | 24  | Chittagong | 60    |
 ##### Pagination main concept OFFSET (page-1)*limit LIMIT limit;
 ### Query
-#### SELECT * FROM Students OFFSET (2-1)*2 LIMIT 2;
+#### SELECT * FROM Students OFFSET (1-1)*2 LIMIT 2;
 | ID | Name   | Age | City       | Marks |
 | -- | ------ | --- | ---------- | ----- |
 | 1  | Samio  | 22  | Dhaka      | 85    |
